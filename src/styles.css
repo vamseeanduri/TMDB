@@ -1,0 +1,7 @@
+/* src/styles.css */
+body {
+    background: rgb(0,212,255);
+    background: linear-gradient(90deg, rgba(0,212,255,1) 35%, rgba(255,0,48,1) 100%, rgba(4,4,246,1) 100%);
+    /* background: rgb(0,212,255);
+    background: linear-gradient(331deg, rgba(0,212,255,1) 18%, rgba(255,0,48,1) 84%, rgba(4,4,246,1) 100%); */
+}
