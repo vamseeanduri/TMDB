@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="ml-2">TMDB</h1>
     <div class="input-group input-group-sm mt-3 ml-3 mr-3">
-      <input class="searchInput mr-1" v-model="query" placeholder=" Search for movies..." @keyup.enter="searchMovies" />
+      <img class="TMDBImage" src="../images/TMDB.svg" alt="TMDB">
+      <input class="searchInput mr-1 ml-6" v-model="query" placeholder=" Search for movies..." @keyup.enter="searchMovies" />
       <button class="btn btn-primary" @click="searchMovies">Search</button>
     </div>
     <div v-if="movies.length">
@@ -41,6 +41,10 @@ export default {
 
 
 <style scoped>
+.TMDBImage{
+  margin-left: 20px;
+  width: 200px;
+}
 .searchInput{
   width: 200px !important;
   border: 1px solid black;
