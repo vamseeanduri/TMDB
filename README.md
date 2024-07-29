@@ -1,3 +1,5 @@
+project live link - https://tmdbmoviezapp.netlify.app/
+
 # vue-app
 
 ## Project setup
