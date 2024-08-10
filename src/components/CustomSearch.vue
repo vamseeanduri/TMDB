@@ -2,11 +2,14 @@
   <div>
     <div class="input-group input-group-sm mt-3 ml-3 mr-3">
       <img class="TMDBImage" src="../images/TMDB.svg" alt="TMDB">
-      <input class="searchInput mr-1 ml-6" v-model="query" placeholder=" Search for movies..." @keyup.enter="searchMovies" />
-      <button class="btn btn-primary" @click="searchMovies">Search</button>
+      <div class="form-group mx-sm-6 mb-2 d-flex">
+        <input class="form-control" v-model="query" placeholder=" Search for movies..." @keyup.enter="searchMovies" />
+        <button class="btn btn-primary ml-1" @click="searchMovies"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
     </div>
-    <div v-if="movies.length">
-      <movie-card :movies="movies">
+    <hr /> 
+    <div > 
+      <movie-card :movies="movies.length > 0 ? movies : InitialRender">
       </movie-card>
     </div>
   </div>
@@ -26,9 +29,19 @@ export default {
     return {
       query: '',
       movies: [],
+      InitialRender: []
     };
   },
+  created(){
+      this.getMovies();
+  },
   methods: {
+    async getMovies(){
+        const response = await api.get('/movie/popular?language=en-US&page=1', {
+            params: { query: this.query },
+        });
+        this.InitialRender = response.data.results;
+    },
     async searchMovies() {
       const response = await api.get('/search/movie', {
         params: { query: this.query },

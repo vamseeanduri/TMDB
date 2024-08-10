@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <div class="row">
+        <div class="row" v-if="!selectedMovie">
             <div class="col-sm-6 col-md-4 col-lg-3" v-for="(movie, idx) in movies" :key="idx">
-                <div class="card movie-card">
+                <div class="card movie-card" @click="selectMovie(movie)">
                     <img :src="getFullImagePath(movie.backdrop_path ? movie.backdrop_path : movie.poster_path)" class="card-img-top movie-poster" :alt="movie.title">
                     <div class="card-body">
                         <h5 class="card-title movie-title">{{ movie.title }}</h5>
@@ -11,18 +11,34 @@
                 </div>
             </div>
         </div>
+        <movie-detail v-if="selectedMovie" :selectedMovie="selectedMovie" @closeDetailsTab="closeDetailsTab"></movie-detail>
     </div>
 </template>
 
 <script>
+import MovieDetail from './MovieDetails.vue';
 export default {
     props: {
         movies: Array,
+    },
+    components:{
+        MovieDetail
+    },
+    data() {
+        return {
+            selectedMovie: null
+        }
     },
     methods: {
         getFullImagePath(posterPath) {
             const baseURL = "https://image.tmdb.org/t/p/w500";
             return `${baseURL}${posterPath}`;
+        },
+        selectMovie(movie){
+            this.selectedMovie = movie;
+        },
+        closeDetailsTab(){
+            this.selectedMovie = null;
         }
     }
 }
