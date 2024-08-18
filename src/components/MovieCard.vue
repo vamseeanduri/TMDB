@@ -36,9 +36,11 @@ export default {
         },
         selectMovie(movie){
             this.selectedMovie = movie;
+            this.$emit("hidePagination");
         },
         closeDetailsTab(){
             this.selectedMovie = null;
+            this.$emit("showPagination");
         }
     }
 }

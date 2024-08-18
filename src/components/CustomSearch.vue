@@ -8,36 +8,43 @@
       </div>
     </div>
     <hr /> 
-    <div > 
-      <movie-card :movies="movies.length > 0 ? movies : InitialRender">
+    <div> 
+      <movie-card :movies="movies.length > 0 ? movies : InitialRender" @hidePagination="hidePagination()" @showPagination="showPagination">
       </movie-card>
+    </div>
+    <!-- Pagination Controls -->
+    <div v-if="!hidePaginationTab" class="pagination-controls">
+      <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }}</span>
+      <button class="btn btn-primary" @click="nextPage">Next</button>
     </div>
   </div>
 </template>
-
 
 <script>
 import api from '../services/api';
 import MovieCard from './MovieCard.vue';
 
-
 export default {
-  components:{
+  components: {
     MovieCard
   },
   data() {
     return {
       query: '',
       movies: [],
-      InitialRender: []
+      InitialRender: [],
+      currentPage: 1,
+      itemsPerPage: 10,
+      hidePaginationTab: false
     };
   },
   created(){
-      this.getMovies();
+      this.getMovies(1);
   },
   methods: {
-    async getMovies(){
-        const response = await api.get('/movie/popular?language=en-US&page=1', {
+    async getMovies(pagenumber){
+        const response = await api.get(`/movie/popular?language=en-US&page=${pagenumber}`, {
             params: { query: this.query },
         });
         this.InitialRender = response.data.results;
@@ -48,19 +55,47 @@ export default {
       });
       this.movies = response.data.results;
     },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.getMovies(this.currentPage);
+      }
+    },
+    nextPage() {
+      this.currentPage++;
+      this.getMovies(this.currentPage);
+    },
+    hidePagination(){
+      this.hidePaginationTab = true;
+    },
+    showPagination(){
+      this.hidePaginationTab = false;
+    }
+  },
+  computed: {
+    paginatedData() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.InitialRender.slice(start, end);
+    },
   },
 };
 </script>
 
-
 <style scoped>
-.TMDBImage{
+.TMDBImage {
   margin-left: 20px;
   width: 200px;
 }
-.searchInput{
+.searchInput {
   width: 200px !important;
   border: 1px solid black;
   border-radius: 5px;
+}
+.pagination-controls {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 </style>

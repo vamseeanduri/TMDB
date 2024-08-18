@@ -8,8 +8,8 @@
     <p><b>Budget : </b>{{ movie.budget }}</p>
     <p><b>Genres : </b>{{ movie.genres.map(genre => genre.name).join(', ') }}</p>
     <p><b>Homepage : </b><a :href="movie.homepage" target="_blank">{{ movie.homepage }}</a></p>
-    <button class="btn btn-primary" @click="addToWatchlist">Add to Watchlist <i class="fa-solid fa-plus"></i></button>
-    <button class="btn btn-success ml-2" @click="addToFavorites">Add to Favorites <i class="fa-solid fa-plus"></i></button>
+    <button class="btn btn-primary mb-2" @click="addToWatchlist">Add to Watchlist <i class="fa-solid fa-plus"></i></button>
+    <button class="btn btn-success ml-2 mb-2" @click="addToFavorites">Add to Favorites <i class="fa-solid fa-plus"></i></button>
   </div>
 </template>
 
